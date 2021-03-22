@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    background-color: lightgrey;
+}
+
+#logo {
+    padding: 5px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    display: inline;
+}
