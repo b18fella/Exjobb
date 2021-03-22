@@ -26,20 +26,20 @@
     <script>
         var canvas = document.getElementById('covidChart');
         var covidChart = new Chart(canvas, {
-            type: 'bar',
+            type: 'bar', //Type of chart, in this case, bar chart.
             data: {
                 labels: ['Red', 'Black', 'Yellow'],
                 datasets: [{
-                    label: 'number of cases',
+                    label: 'number of cases', //Label on top of the chart.
                     data: [15, 20, 31], //The data goes here.
-                    backgroundColor: [
+                    backgroundColor: [ //Color of each bar, left to right.
                         'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(0, 0, 0, 0.2)',
                         'rgba(255, 206, 86, 0.2)'
                     ],
-                    borderColor: [
+                    borderColor: [ //Border color of each bar, left to right.
                         'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
+                        'rgba(0, 0, 0, 1)',
                         'rgba(255, 206, 86, 1)'
                     ],
                     borderWidth: 1
