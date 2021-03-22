@@ -23,3 +23,8 @@ ul {
 ul li {
     display: inline;
 }
+
+section {
+    width: 100vw;
+    height: 100vh;
+}
