@@ -19,19 +19,21 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <select id="selectedCountry">
-                    <?php
-                        $sqlQuery = "SELECT DISTINCT Country FROM globalcoviddata ORDER BY Country;";
+            <form action="">
+                <select id="selectedCountry">
+                        <?php
+                            $sqlQuery = "SELECT DISTINCT Country FROM globalcoviddata;";
 
-                        $queryResult = $databaseConnection->query($sqlQuery);
+                            $queryResult = $databaseConnection->query($sqlQuery);
 
-                        while ($row = $queryResult->fetch_assoc()) {
-                            echo "<option value=" . $row['Country'] . ">" . $row['Country'] . "</option>";
-                        }
+                            while ($row = $queryResult->fetch_assoc()) {
+                                echo "<option value=" . $row['Country'] . ">" . $row['Country'] . "</option>";
+                            }
 
-                        $queryResult->close();
-                    ?>
-            </select>
+                            $queryResult->close();
+                        ?>
+                </select>
+            </form>
             <div id="covidDataContainer">
                 <canvas id="covidChart"></canvas>
             </div>
