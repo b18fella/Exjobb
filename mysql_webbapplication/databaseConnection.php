@@ -3,7 +3,7 @@
     $serverName = "localhost";
     $userName = "root";
     $password = "";
-    $databaseName = "";
+    $databaseName = "coviddata";
 
     //Create the connection.
     $databaseConnection = new mysqli($serverName, $userName, $password, $databaseName);

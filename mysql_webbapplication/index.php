@@ -1,3 +1,7 @@
+<?php
+    include 'databaseConnection.php';
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,6 +19,19 @@
             </ul>
         </header>
         <section id="covid-19-data">
+            <select id="selectedCountry">
+                    <?php
+                        $sqlQuery = "SELECT DISTINCT Country FROM globalcoviddata ORDER BY Country;";
+
+                        $queryResult = $databaseConnection->query($sqlQuery);
+
+                        while ($row = $queryResult->fetch_assoc()) {
+                            echo "<option value=" . $row['Country'] . ">" . $row['Country'] . "</option>";
+                        }
+
+                        $queryResult->close();
+                    ?>
+            </select>
             <div id="covidDataContainer">
                 <canvas id="covidChart"></canvas>
             </div>
