@@ -15,7 +15,9 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <canvas id="covidChart" width="300" height="200"></canvas>
+            <div id="covidDataContainer">
+                <canvas id="covidChart"></canvas>
+            </div>
         </section>
         <section id="info">
         </section>
