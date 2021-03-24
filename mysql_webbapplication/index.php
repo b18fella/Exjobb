@@ -113,7 +113,7 @@
     echo "<script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
-        type: 'bar', //Type of chart, in this case, bar chart.
+        type: 'line', //Type of chart, in this case, bar chart.
         data: {
             labels: " . json_encode($dates) . ",
             datasets: [{
