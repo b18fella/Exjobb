@@ -36,6 +36,7 @@
         </section>
         <section id="info">
         <?php
+            $WHO_region;
             $dates = array();
             $newCases = array();
             $cumulativeCases = array();
@@ -44,6 +45,51 @@
         
             if (isset($_POST['WHO_region'])) {
                 $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
+
+                $queryResult = $databaseConnection->query($sqlQuery);
+
+                switch ($_POST['WHO_region']) {
+                    case 'EMRO':
+                        $WHO_region = 'Eastern Mediterranean Region';
+                        break;
+                    
+                    case 'EURO':
+                        $WHO_region = 'European Region';
+                        break;
+
+                    case 'AFRO':
+                        $WHO_region = 'African Region';
+                        break;
+
+                    case 'WPRO':
+                        $WHO_region = 'Western Pacific Region';
+                        break;
+
+                    case 'AMRO':
+                        $WHO_region = 'Region of the Americas';
+                        break;
+
+                    case 'SEARO':
+                        $WHO_region = 'South-East Asia Region';
+                        break;
+                    
+                    default:
+                        $WHO_region = $_post['WHO_region'];
+                        break;
+                }
+
+                $i = 0;
+                while ($row = $queryResult->fetch_assoc()) {
+                    $dates[$i] = $row["Date_reported"];
+                    $newCases[$i] = $row["New_cases"];
+                    $cumulativeCases[$i] = $row["Cumulative_cases"];
+                    $newDeaths[$i] = $row["New_deaths"];
+                    $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
+
+                    $i++;
+                }
+            } else {
+                $sqlQuery = "SELECT * FROM globalcoviddata;";
 
                 $queryResult = $databaseConnection->query($sqlQuery);
 
@@ -57,15 +103,13 @@
 
                     $i++;
                 }
-
-                echo json_encode($newCases);
             }
         ?>
         </section>
         <section id="cc">
         </section>
     </body>
-    <?php if (isset($newCases)) {
+    <?php if (isset($_POST['WHO_region'])) {
     echo "<script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
@@ -73,8 +117,34 @@
         data: {
             labels: " . json_encode($dates) . ",
             datasets: [{
-                label: 'Number of cases', //Label on top of the chart.
-                data: " . json_encode($newCases) . ", //The data goes here.
+                label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
+                data: " . json_encode($cumulativeCases) . ", //The data goes here.
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>"; 
+
+    $queryResult->close(); 
+    } else {
+        echo "<script type='text/javascript'>
+    var canvas = document.getElementById('covidChart');
+    var covidChart = new Chart(canvas, {
+        type: 'bar', //Type of chart, in this case, bar chart.
+        data: {
+            labels: " . json_encode($dates) . ",
+            datasets: [{
+                label: 'Number of cases in the world', //Label on top of the chart.
+                data: " . json_encode($cumulativeCases) . ", //The data goes here.
                 borderWidth: 1
             }]
         },
