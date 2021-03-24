@@ -8,6 +8,7 @@
         <title>COVID-19 data using MySQL</title>
         <link rel="stylesheet" href="main.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+
     </head>
     <body>
         <header>
@@ -19,19 +20,14 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <form action="">
+            <form action="selections.php" method="post">
                 <select id="selectedCountry">
-                        <?php
-                            $sqlQuery = "SELECT DISTINCT Country FROM globalcoviddata;";
-
-                            $queryResult = $databaseConnection->query($sqlQuery);
-
-                            while ($row = $queryResult->fetch_assoc()) {
-                                echo "<option value=" . $row['Country'] . ">" . $row['Country'] . "</option>";
-                            }
-
-                            $queryResult->close();
-                        ?>
+                    <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
+                    <option value="EURO" name='WHO_region'>European Region</option>
+                    <option value="AFRO" name='WHO_region'>African Region</option>
+                    <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
+                    <option value="AMRO" name='WHO_region'>Region of the Americas</option>
+                    <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
                 </select>
             </form>
             <div id="covidDataContainer">
@@ -44,37 +40,5 @@
         </section>
     </body>
 
-    <script>
-        var canvas = document.getElementById('covidChart');
-        var covidChart = new Chart(canvas, {
-            type: 'bar', //Type of chart, in this case, bar chart.
-            data: {
-                labels: ['Red', 'Black', 'Yellow'],
-                datasets: [{
-                    label: 'number of cases', //Label on top of the chart.
-                    data: [15, 20, 31], //The data goes here.
-                    backgroundColor: [ //Color of each bar, left to right.
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(0, 0, 0, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [ //Border color of each bar, left to right.
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(0, 0, 0, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
+    <script src="charts.js"></script>
 </html>
