@@ -1,7 +1,6 @@
 <?php
     include 'databaseConnection.php';
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,8 +19,8 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <form action="selections.php" method="post">
-                <select id="selectedCountry">
+            <form action="index.php" method="post">
+                <select name="WHO_region">
                     <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
                     <option value="EURO" name='WHO_region'>European Region</option>
                     <option value="AFRO" name='WHO_region'>African Region</option>
@@ -29,36 +28,53 @@
                     <option value="AMRO" name='WHO_region'>Region of the Americas</option>
                     <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
                 </select>
+                <input type="submit" name="submit" value="Submit">
             </form>
             <div id="covidDataContainer">
                 <canvas id="covidChart"></canvas>
             </div>
         </section>
         <section id="info">
+        <?php
+            $dates = array();
+            $newCases = array();
+            $cumulativeCases = array();
+            $newDeaths = array();
+            $cumulativeDeaths = array();
+        
+            if (isset($_POST['WHO_region'])) {
+                $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
+
+                $queryResult = $databaseConnection->query($sqlQuery);
+
+                $i = 0;
+                while ($row = $queryResult->fetch_assoc()) {
+                    $dates[$i] = $row["Date_reported"];
+                    $newCases[$i] = $row["New_cases"];
+                    $cumulativeCases[$i] = $row["Cumulative_cases"];
+                    $newDeaths[$i] = $row["New_deaths"];
+                    $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
+
+                    $i++;
+                }
+
+                echo json_encode($newCases);
+            }
+        ?>
         </section>
         <section id="cc">
         </section>
     </body>
-
-    <script>
+    <?php if (isset($newCases)) {
+    echo "<script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
         type: 'bar', //Type of chart, in this case, bar chart.
         data: {
-            labels: ['Red', 'Black', 'Yellow'],
+            labels: " . json_encode($dates) . ",
             datasets: [{
-                label: 'number of cases', //Label on top of the chart.
-                data: [15, 20, 1111], //The data goes here.
-                backgroundColor: [ //Color of each bar, left to right.
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(0, 0, 0, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
-                ],
-                borderColor: [ //Border color of each bar, left to right.
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
+                label: 'Number of cases', //Label on top of the chart.
+                data: " . json_encode($newCases) . ", //The data goes here.
                 borderWidth: 1
             }]
         },
@@ -72,5 +88,8 @@
             }
         }
     });
-    </script>
+    </script>"; 
+
+    $queryResult->close(); 
+    }?>
 </html>
