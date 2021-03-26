@@ -27,6 +27,7 @@
                     <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
                     <option value="AMRO" name='WHO_region'>Region of the Americas</option>
                     <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
+                    <option value="ALL" name='WHO_region'>All regions</option>
                 </select>
                 <input type="submit" name="submit" value="Submit">
             </form>
@@ -139,7 +140,7 @@
         echo "<script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
-        type: 'bar', //Type of chart, in this case, bar chart.
+        type: 'line', //Type of chart, in this case, bar chart.
         data: {
             labels: " . json_encode($dates) . ",
             datasets: [{
