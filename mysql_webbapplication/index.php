@@ -45,59 +45,59 @@
             $newDeaths = array();
             $cumulativeDeaths = array();
         
-                if ($_POST['WHO_region'] == 'ALL' || !isset($_POST['WHO_region'])) {
-                    $sqlQuery = "SELECT * FROM globalcoviddata;";
-                } else if (isset($_POST['WHO_region'])) {
-                    $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
-                }
+            if ($_POST['WHO_region'] == 'ALL' || !isset($_POST['WHO_region'])) {
+                $sqlQuery = "SELECT * FROM globalcoviddata;";
+            } else if (isset($_POST['WHO_region'])) {
+                $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
+            }
 
-                $queryResult = $databaseConnection->query($sqlQuery);
+            $queryResult = $databaseConnection->query($sqlQuery);
 
-                switch ($_POST['WHO_region']) {
-                    case 'EMRO':
-                        $WHO_region = 'Eastern Mediterranean Region';
-                        break;
+            switch ($_POST['WHO_region']) {
+                case 'EMRO':
+                    $WHO_region = 'Eastern Mediterranean Region';
+                    break;
                     
-                    case 'EURO':
-                        $WHO_region = 'European Region';
-                        break;
+                case 'EURO':
+                    $WHO_region = 'European Region';
+                    break;
 
-                    case 'AFRO':
-                        $WHO_region = 'African Region';
-                        break;
+                case 'AFRO':
+                    $WHO_region = 'African Region';
+                    break;
 
-                    case 'WPRO':
-                        $WHO_region = 'Western Pacific Region';
-                        break;
+                case 'WPRO':
+                    $WHO_region = 'Western Pacific Region';
+                    break;
 
-                    case 'AMRO':
-                        $WHO_region = 'Region of the Americas';
-                        break;
+                case 'AMRO':
+                    $WHO_region = 'Region of the Americas';
+                    break;
 
-                    case 'SEARO':
-                        $WHO_region = 'South-East Asia Region';
-                        break;
+                case 'SEARO':
+                    $WHO_region = 'South-East Asia Region';
+                    break;
 
-                    case 'ALL':
-                        $WHO_region = 'World';
-                        break;
+                case 'ALL':
+                    $WHO_region = 'World';
+                    break;
                     
-                    default:
-                        $WHO_region = $_POST['WHO_region'];
-                        break;
-                }
+                default:
+                    $WHO_region = $_POST['WHO_region'];
+                    break;
+            }
 
-                $i = 0;
+            $i = 0;
 
-                while ($row = $queryResult->fetch_assoc()) {
-                    $dates[$i] = $row["Date_reported"];
-                    $newCases[$i] = $row["New_cases"];
-                    $cumulativeCases[$i] = $row["Cumulative_cases"];
-                    $newDeaths[$i] = $row["New_deaths"];
-                    $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
+            while ($row = $queryResult->fetch_assoc()) {
+                $dates[$i] = $row["Date_reported"];
+                $newCases[$i] = $row["New_cases"];
+                $cumulativeCases[$i] = $row["Cumulative_cases"];
+                $newDeaths[$i] = $row["New_deaths"];
+                $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
 
-                    $i++;
-                }
+                $i++;
+            }
         ?>
         </section>
         <section id="cc">
