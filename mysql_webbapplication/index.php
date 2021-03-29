@@ -103,7 +103,7 @@
         <section id="cc">
         </section>
     </body>
-    <?php if (isset($_POST['WHO_region'])) {
+    <?php 
     echo "<script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
@@ -129,31 +129,5 @@
     </script>"; 
 
     $queryResult->close(); 
-    } else {
-        echo "<script type='text/javascript'>
-    var canvas = document.getElementById('covidChart');
-    var covidChart = new Chart(canvas, {
-        type: 'line', //Type of chart, in this case, bar chart.
-        data: {
-            labels: " . json_encode($dates) . ",
-            datasets: [{
-                label: 'Number of cases in the world', //Label on top of the chart.
-                data: " . json_encode($cumulativeCases) . ", //The data goes here.
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    </script>"; 
-
-    $queryResult->close(); 
-    }?>
+    ?>
 </html>
