@@ -2,7 +2,7 @@
 <html>
 <head>
         <title>COVID-19 data using MongoDB</title>
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="../main.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
 
     </head>
