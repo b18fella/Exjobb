@@ -37,6 +37,7 @@
         </section>
         <section id="info">
         <?php
+            $sqlQuery;
             $WHO_region;
             $dates = array();
             $newCases = array();
@@ -44,8 +45,11 @@
             $newDeaths = array();
             $cumulativeDeaths = array();
         
-            if (isset($_POST['WHO_region'])) {
-                $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
+                if ($_POST['WHO_region'] == 'ALL' || !isset($_POST['WHO_region'])) {
+                    $sqlQuery = "SELECT * FROM globalcoviddata;";
+                } else if (isset($_POST['WHO_region'])) {
+                    $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
+                }
 
                 $queryResult = $databaseConnection->query($sqlQuery);
 
@@ -73,6 +77,10 @@
                     case 'SEARO':
                         $WHO_region = 'South-East Asia Region';
                         break;
+
+                    case 'ALL':
+                        $WHO_region = 'World';
+                        break;
                     
                     default:
                         $WHO_region = $_POST['WHO_region'];
@@ -80,6 +88,7 @@
                 }
 
                 $i = 0;
+
                 while ($row = $queryResult->fetch_assoc()) {
                     $dates[$i] = $row["Date_reported"];
                     $newCases[$i] = $row["New_cases"];
@@ -89,22 +98,6 @@
 
                     $i++;
                 }
-            } else {
-                $sqlQuery = "SELECT * FROM globalcoviddata;";
-
-                $queryResult = $databaseConnection->query($sqlQuery);
-
-                $i = 0;
-                while ($row = $queryResult->fetch_assoc()) {
-                    $dates[$i] = $row["Date_reported"];
-                    $newCases[$i] = $row["New_cases"];
-                    $cumulativeCases[$i] = $row["Cumulative_cases"];
-                    $newDeaths[$i] = $row["New_deaths"];
-                    $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
-
-                    $i++;
-                }
-            }
         ?>
         </section>
         <section id="cc">
