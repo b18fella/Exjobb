@@ -113,7 +113,6 @@
             datasets: [{
                 label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
                 data: " . json_encode($cumulativeCases) . ", //The data goes here.
-                borderWidth: 1
             }]
         },
         options: {
