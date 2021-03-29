@@ -75,7 +75,7 @@
                         break;
                     
                     default:
-                        $WHO_region = $_post['WHO_region'];
+                        $WHO_region = $_POST['WHO_region'];
                         break;
                 }
 
