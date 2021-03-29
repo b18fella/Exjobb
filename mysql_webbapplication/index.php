@@ -36,6 +36,10 @@
 
                 $queryResult = $databaseConnection->query($sqlQuery);
 
+                echo '<script>
+                        var loadingTimeBefore = performance.now();
+                    </script>';
+                
                 switch ($_POST['WHO_region']) {
                     case 'EMRO':
                         $WHO_region = 'Eastern Mediterranean Region';
@@ -81,7 +85,15 @@
 
                     $i++;
                 }
+
+                echo '<script>
+                        var loadingTimeAfter = performance.now();
+
+                        var loadingTime = loadingTimeAfter - loadingTimeBefore;
+                        console.log(loadingTime);
+                    </script>';
             ?>
+                
             <form action="index.php" method="post">
                 <select name="WHO_region">
                     <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
