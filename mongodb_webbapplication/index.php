@@ -26,8 +26,14 @@
                 $cumulativeCases = array();
                 $newDeaths = array();
                 $cumulativeDeaths = array();
+
+                if ($_POST['WHO_region'] == 'ALL' || !isset($_POST['WHO_region'])) {
+                    $querie = new MongoDB\Driver\Query([]);
+                } else if (isset($_POST['WHO_region'])) {
+                    $querie = new MongoDB\Driver\Query(['WHO_region' => $_POST['WHO_region']]);
+                }
                 
-                    $querie = new MongoDB\Driver\Query(['WHO_region' => 'EMRO']);
+                    
 
                     $result = $databaseConnection->executeQuery("coviddata.globalcoviddata", $querie);
                     $querieResultArray = $result->toArray();
