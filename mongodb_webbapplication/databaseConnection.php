@@ -3,5 +3,8 @@
     $listDatabases = new MongoDB\Driver\Command(["find" => "globalcoviddata"]);
     $result = $databaseConnection->executeCommand("coviddata", $listDatabases);
     $collections = $result->toArray();
-    print_r($collections);
+
+    foreach ($collections as $collection) {
+        echo $collection->WHO_region;
+    }
 ?>
