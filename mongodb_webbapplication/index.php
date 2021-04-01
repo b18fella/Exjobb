@@ -20,17 +20,17 @@
         </header>
         <section id="covid-19-data">
             <?php
-                    $listDatabases = new MongoDB\Driver\Command(["find" => "globalcoviddata"]);
-                    $result = $databaseConnection->executeCommand("coviddata", $listDatabases);
-                    $querieResultArray = $result->toArray();
+                $WHO_region;
+                $dates = array();
+                $newCases = array();
+                $cumulativeCases = array();
+                $newDeaths = array();
+                $cumulativeDeaths = array();
+                
+                    $querie = new MongoDB\Driver\Query(['WHO_region' => 'EMRO']);
 
-                    $sqlQuery;
-                    $WHO_region;
-                    $dates = array();
-                    $newCases = array();
-                    $cumulativeCases = array();
-                    $newDeaths = array();
-                    $cumulativeDeaths = array();
+                    $result = $databaseConnection->executeQuery("coviddata.globalcoviddata", $querie);
+                    $querieResultArray = $result->toArray();
 
                     $i = 0;
 
@@ -43,8 +43,6 @@
 
                         $i++;
                     }
-
-                    print_r($dates);
             ?>
             <form action="index.php" method="post">
                 <select name="WHO_region">
@@ -67,14 +65,15 @@
         <section id="cc">
         </section>
     </body>
-    <script type='text/javascript'>
+    <?php
+        echo "<script type='text/javascript'>
         var canvas = document.getElementById('covidChart');
         var covidChart = new Chart(canvas, {
             type: 'line', //Type of chart, in this case, bar chart.
             data: {
                 labels: " . json_encode($dates) . ",
                 datasets: [{
-                    label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
+                    label: 'Number of cases in', //Label on top of the chart.
                     data: " . json_encode($cumulativeCases) . ", //The data goes here.
                 }]
             },
@@ -88,5 +87,6 @@
                 }
             }
         });
-    </script>
+    </script>";
+    ?>
 </html>
