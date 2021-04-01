@@ -18,7 +18,34 @@
                 <a href="#cc"><li>CC</li></a>
             </ul>
         </header>
-        <section id="covid-19-data"> 
+        <section id="covid-19-data">
+            <?php
+                    $listDatabases = new MongoDB\Driver\Command(["find" => "globalcoviddata"]);
+                    $result = $databaseConnection->executeCommand("coviddata", $listDatabases);
+                    $querieResultArray = $result->toArray();
+
+                    $sqlQuery;
+                    $WHO_region;
+                    $dates = array();
+                    $newCases = array();
+                    $cumulativeCases = array();
+                    $newDeaths = array();
+                    $cumulativeDeaths = array();
+
+                    $i = 0;
+
+                    foreach ($querieResultArray as $row) {
+                        $dates[$i] = $row->Date_reported;
+                        $newCases[$i] = $row->New_cases;
+                        $cumulativeCases[$i] = $row->Cumulative_cases;
+                        $newDeaths[$i] = $row->New_deaths;
+                        $cumulativeDeaths[$i] = $row->Cumulative_deaths;
+
+                        $i++;
+                    }
+
+                    print_r($dates);
+            ?>
             <form action="index.php" method="post">
                 <select name="WHO_region">
                     <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
