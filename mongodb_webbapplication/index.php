@@ -21,6 +21,7 @@
         <section id="covid-19-data">
             <?php
                 $WHO_region;
+                $WHO_regions = array('EMRO', 'EURO', 'AFRO', 'WPRO', 'AMRO', 'SEARO');
                 $dates = array();
                 $newCases = array();
                 $cumulativeCases = array();
@@ -79,11 +80,16 @@
                     $i = 0;
 
                     foreach ($querieResultArray as $row) {
-                        $dates[$i] = $row->Date_reported;
-                        $newCases[$i] = $row->New_cases;
-                        $cumulativeCases[$i] = $row->Cumulative_cases;
-                        $newDeaths[$i] = $row->New_deaths;
-                        $cumulativeDeaths[$i] = $row->Cumulative_deaths;
+                        for ($j = 0; $j < count($WHO_regions); $j++) { 
+                            if ($row->WHO_region == $WHO_regions[$j]) {
+                                //$index = count($datasets[$WHO_regions[$j]]["Date_reported"]);
+                                $datasets[$WHO_regions[$j]]["Date_reported"][] = $row->Date_reported;
+                                $datasets[$WHO_regions[$j]]["New_cases"][] = $row->New_cases;
+                                $datasets[$WHO_regions[$j]]["Cumulative_cases"][] = $row->Cumulative_cases;
+                                $datasets[$WHO_regions[$j]]["New_deaths"][] = $row->New_deaths;
+                                $datasets[$WHO_regions[$j]]["Cumulative_deaths"][] = $row->Cumulative_deaths;
+                            }
+                        }
 
                         $i++;
                     }
