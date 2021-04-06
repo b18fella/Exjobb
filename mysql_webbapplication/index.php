@@ -28,7 +28,7 @@
                 $newDeaths = array();
                 $cumulativeDeaths = array();
             
-                if ($_POST['WHO_region'] == 'ALL' || !isset($_POST['WHO_region'])) {
+                if (empty($_POST) || $_POST['WHO_region'] == 'ALL') {
                     $sqlQuery = "SELECT * FROM globalcoviddata;";
                 } else if (isset($_POST['WHO_region'])) {
                     $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
@@ -39,40 +39,42 @@
                 echo '<script>
                         var loadingTimeBefore = performance.now();
                     </script>';
-                
-                switch ($_POST['WHO_region']) {
-                    case 'EMRO':
-                        $WHO_region = 'Eastern Mediterranean Region';
-                        break;
-                        
-                    case 'EURO':
-                        $WHO_region = 'European Region';
-                        break;
-
-                    case 'AFRO':
-                        $WHO_region = 'African Region';
-                        break;
-
-                    case 'WPRO':
-                        $WHO_region = 'Western Pacific Region';
-                        break;
-
-                    case 'AMRO':
-                        $WHO_region = 'Region of the Americas';
-                        break;
-
-                    case 'SEARO':
-                        $WHO_region = 'South-East Asia Region';
-                        break;
-
-                    case 'ALL':
-                        $WHO_region = 'World';
-                        break;
-                        
-                    default:
-                        $WHO_region = $_POST['WHO_region'];
-                        break;
+                if (!empty($_POST)) {
+                    switch ($_POST['WHO_region']) {
+                        case 'EMRO':
+                            $WHO_region = 'Eastern Mediterranean Region';
+                            break;
+                            
+                        case 'EURO':
+                            $WHO_region = 'European Region';
+                            break;
+    
+                        case 'AFRO':
+                            $WHO_region = 'African Region';
+                            break;
+    
+                        case 'WPRO':
+                            $WHO_region = 'Western Pacific Region';
+                            break;
+    
+                        case 'AMRO':
+                            $WHO_region = 'Region of the Americas';
+                            break;
+    
+                        case 'SEARO':
+                            $WHO_region = 'South-East Asia Region';
+                            break;
+    
+                        case 'ALL':
+                            $WHO_region = 'World';
+                            break;
+                            
+                        default:
+                            $WHO_region = $_POST['WHO_region'];
+                            break;
+                    }
                 }
+                
 
                 $i = 0;
 
