@@ -72,6 +72,8 @@
                                 $WHO_region = $_POST['WHO_region'];
                                 break;
                         }
+                    } else if (empty($_POST)) {
+                        $WHO_region = 'World';
                     }
 
                     $i = 0;
