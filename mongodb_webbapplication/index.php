@@ -21,12 +21,12 @@
         <section id="covid-19-data">
             <?php
                 $WHO_region;
-                $WHO_regions = array('EMRO', 'EURO', 'AFRO', 'WPRO', 'AMRO', 'SEARO');
                 $dates = array();
                 $newCases = array();
                 $cumulativeCases = array();
                 $newDeaths = array();
                 $cumulativeDeaths = array();
+                $datasets;
 
                 if (empty($_POST) || $_POST['WHO_region'] == 'ALL') {
                     $querie = new MongoDB\Driver\Query([]);
@@ -77,22 +77,21 @@
                         $WHO_region = 'World';
                     }
 
+                    
+
                     $i = 0;
 
                     foreach ($querieResultArray as $row) {
-                        for ($j = 0; $j < count($WHO_regions); $j++) { 
-                            if ($row->WHO_region == $WHO_regions[$j]) {
-                                //$index = count($datasets[$WHO_regions[$j]]["Date_reported"]);
-                                $datasets[$WHO_regions[$j]]["Date_reported"][] = $row->Date_reported;
-                                $datasets[$WHO_regions[$j]]["New_cases"][] = $row->New_cases;
-                                $datasets[$WHO_regions[$j]]["Cumulative_cases"][] = $row->Cumulative_cases;
-                                $datasets[$WHO_regions[$j]]["New_deaths"][] = $row->New_deaths;
-                                $datasets[$WHO_regions[$j]]["Cumulative_deaths"][] = $row->Cumulative_deaths;
-                            }
-                        }
+                        $datasets["Date_reported"] = $row->Date_reported;
+                        $datasets[$WHO_regions[]]["New_cases"][] = $row->New_cases;
+                        $datasets[$WHO_regions[]]["Cumulative_cases"][] = $row->Cumulative_cases;
+                        $datasets[$WHO_regions[$j]]["New_deaths"][] = $row->New_deaths;
+                        $datasets[$WHO_regions[$j]]["Cumulative_deaths"][] = $row->Cumulative_deaths;
 
                         $i++;
                     }
+
+                    
             ?>
             <form action="index.php" method="post">
                 <select name="WHO_region">
@@ -121,10 +120,10 @@
         var covidChart = new Chart(canvas, {
             type: 'line', //Type of chart, in this case, bar chart.
             data: {
-                labels: " . json_encode($dates) . ",
+                labels: " . json_encode($datasets[]['Date_reported']) . ",
                 datasets: [{
                     label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
-                    data: " . json_encode($cumulativeCases) . ", //The data goes here.
+                    data: " . json_encode($datasets[]['Cumulative_cases']) . ", //The data goes here.
                 }]
             },
             options: {
