@@ -26,7 +26,8 @@
                 $cumulativeCases = array();
                 $newDeaths = array();
                 $cumulativeDeaths = array();
-                $datasets;
+                $datasets = array();
+                $countries = array();
 
                 if (empty($_POST) || $_POST['WHO_region'] == 'ALL') {
                     $querie = new MongoDB\Driver\Query([]);
@@ -34,7 +35,9 @@
                     $querie = new MongoDB\Driver\Query(['WHO_region' => $_POST['WHO_region']]);
                 }
                 
-                    
+                    $countryCommand = new MongoDB\Driver\Command(['distinct' => 'country']);
+
+                    $countryQuerieResult = $databaseConnection->executeCommand("coviddata", $countryCommand);
 
                     $result = $databaseConnection->executeQuery("coviddata.globalcoviddata", $querie);
                     $querieResultArray = $result->toArray();
@@ -82,12 +85,12 @@
                     $i = 0;
 
                     foreach ($querieResultArray as $row) {
-                        $datasets["Date_reported"] = $row->Date_reported;
-                        $datasets[$WHO_regions[]]["New_cases"][] = $row->New_cases;
-                        $datasets[$WHO_regions[]]["Cumulative_cases"][] = $row->Cumulative_cases;
-                        $datasets[$WHO_regions[$j]]["New_deaths"][] = $row->New_deaths;
-                        $datasets[$WHO_regions[$j]]["Cumulative_deaths"][] = $row->Cumulative_deaths;
-
+                        /*$datasets[$countries[]]["Date_reported"] = $row->Date_reported;
+                        $datasets[$countries[]]["New_cases"][] = $row->New_cases;
+                        $datasets[$countries[]]["Cumulative_cases"][] = $row->Cumulative_cases;
+                        $datasets[$countries[]]["New_deaths"][] = $row->New_deaths;
+                        $datasets[$countries[]]["Cumulative_deaths"][] = $row->Cumulative_deaths;
+*/
                         $i++;
                     }
 
@@ -120,10 +123,10 @@
         var covidChart = new Chart(canvas, {
             type: 'line', //Type of chart, in this case, bar chart.
             data: {
-                labels: " . json_encode($datasets[]['Date_reported']) . ",
+                labels: " . json_encode() . ",
                 datasets: [{
                     label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
-                    data: " . json_encode($datasets[]['Cumulative_cases']) . ", //The data goes here.
+                    data: " . json_encode() . ", //The data goes here.
                 }]
             },
             options: {
