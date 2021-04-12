@@ -1,6 +1,3 @@
-<?php
-    include 'databaseConnection.php';
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,84 +16,6 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <?php
-                $sqlQuery;
-                $WHO_region;
-                $dates = array();
-                $newCases = array();
-                $cumulativeCases = array();
-                $newDeaths = array();
-                $cumulativeDeaths = array();
-            
-                if (empty($_POST) || $_POST['WHO_region'] == 'ALL') {
-                    $sqlQuery = "SELECT * FROM globalcoviddata;";
-                } else if (isset($_POST['WHO_region'])) {
-                    $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region ='" . $_POST['WHO_region'] . "';";
-                }
-
-                $queryResult = $databaseConnection->query($sqlQuery);
-
-                echo '<script>
-                        var loadingTimeBefore = performance.now();
-                    </script>';
-                if (!empty($_POST)) {
-                    switch ($_POST['WHO_region']) {
-                        case 'EMRO':
-                            $WHO_region = 'Eastern Mediterranean Region';
-                            break;
-                            
-                        case 'EURO':
-                            $WHO_region = 'European Region';
-                            break;
-    
-                        case 'AFRO':
-                            $WHO_region = 'African Region';
-                            break;
-    
-                        case 'WPRO':
-                            $WHO_region = 'Western Pacific Region';
-                            break;
-    
-                        case 'AMRO':
-                            $WHO_region = 'Region of the Americas';
-                            break;
-    
-                        case 'SEARO':
-                            $WHO_region = 'South-East Asia Region';
-                            break;
-    
-                        case 'ALL':
-                            $WHO_region = 'World';
-                            break;
-                            
-                        default:
-                            $WHO_region = $_POST['WHO_region'];
-                            break;
-                    }
-                } else if (empty($_POST)) {
-                    $WHO_region = 'World';
-                }
-                
-
-                $i = 0;
-
-                while ($row = $queryResult->fetch_assoc()) {
-                    $dates[$i] = $row["Date_reported"];
-                    $newCases[$i] = $row["New_cases"];
-                    $cumulativeCases[$i] = $row["Cumulative_cases"];
-                    $newDeaths[$i] = $row["New_deaths"];
-                    $cumulativeDeaths[$i] = $row["Cumulative_deaths"];
-
-                    $i++;
-                }
-
-                echo '<script>
-                        var loadingTimeAfter = performance.now();
-
-                        var loadingTime = loadingTimeAfter - loadingTimeBefore;
-                        console.log(loadingTime);
-                    </script>';
-            ?>
                 
             <form action="index.php" method="post">
                 <select name="WHO_region">
@@ -119,8 +38,7 @@
         <section id="cc">
         </section>
     </body>
-    <?php 
-    echo "<script type='text/javascript'>
+    <script type='text/javascript'>
     var canvas = document.getElementById('covidChart');
     var covidChart = new Chart(canvas, {
         type: 'line', //Type of chart, in this case, bar chart.
@@ -141,8 +59,5 @@
             }
         }
     });
-    </script>"; 
-
-    $queryResult->close(); 
-    ?>
+    </script>
 </html>
