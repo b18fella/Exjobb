@@ -4,7 +4,7 @@
         <title>COVID-19 data using MySQL</title>
         <link rel="stylesheet" href="../main.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
         <header>
@@ -17,22 +17,21 @@
         </header>
         <section id="covid-19-data">
             <script>
-                function getData(region) {
-                    var request = new XMLHttpRequest();
-
-                    request.open("GET", "databaseConnection.php?query=" + region, true);
-                    request.send();
-                }
+                $(document).ready(function() {
+                    $("select").on('change', function() {
+                        
+                    });
+                });
             </script>
             <form action="index.php" method="post">
                 <select name="WHO_region">
-                    <option onclick="getData('EMRO');" name='WHO_region'>Eastern Mediterranean Region</option>
-                    <option onclick="getData('EURO');" name='WHO_region'>European Region</option>
-                    <option onclick="getData('WPRO');" value="AFRO" name='WHO_region'>African Region</option>
-                    <option onclick="getData('WPRO');" name='WHO_region'>Western Pacific Region</option>
-                    <option onclick="getData('AMRO');" name='WHO_region'>Region of the Americas</option>
-                    <option onclick="getData('SEARO');" name='WHO_region'>South-East Asia Region</option>
-                    <option onclick="getData('ALL');" name='WHO_region'>All regions</option>
+                    <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
+                    <option value="EURO" name='WHO_region'>European Region</option>
+                    <option value="WPRO" name='WHO_region'>African Region</option>
+                    <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
+                    <option value="AMRO" name='WHO_region'>Region of the Americas</option>
+                    <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
+                    <option value="ALL" name='WHO_region'>All regions</option>
                 </select>
             </form>
             <div id="covidDataContainer">
