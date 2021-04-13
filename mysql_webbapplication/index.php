@@ -16,18 +16,24 @@
             </ul>
         </header>
         <section id="covid-19-data">
-                
+            <script>
+                function getData(region) {
+                    var request = new XMLHttpRequest();
+
+                    request.open("GET", "databaseConnection.php?query=" + region, true);
+                    request.send();
+                }
+            </script>
             <form action="index.php" method="post">
                 <select name="WHO_region">
-                    <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
-                    <option value="EURO" name='WHO_region'>European Region</option>
-                    <option value="AFRO" name='WHO_region'>African Region</option>
-                    <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
-                    <option value="AMRO" name='WHO_region'>Region of the Americas</option>
-                    <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
-                    <option value="ALL" name='WHO_region'>All regions</option>
+                    <option onclick="getData('EMRO');" name='WHO_region'>Eastern Mediterranean Region</option>
+                    <option onclick="getData('EURO');" name='WHO_region'>European Region</option>
+                    <option onclick="getData('WPRO');" value="AFRO" name='WHO_region'>African Region</option>
+                    <option onclick="getData('WPRO');" name='WHO_region'>Western Pacific Region</option>
+                    <option onclick="getData('AMRO');" name='WHO_region'>Region of the Americas</option>
+                    <option onclick="getData('SEARO');" name='WHO_region'>South-East Asia Region</option>
+                    <option onclick="getData('ALL');" name='WHO_region'>All regions</option>
                 </select>
-                <input type="submit" name="submit" value="Submit">
             </form>
             <div id="covidDataContainer">
                 <canvas id="covidChart"></canvas>
@@ -43,10 +49,10 @@
     var covidChart = new Chart(canvas, {
         type: 'line', //Type of chart, in this case, bar chart.
         data: {
-            labels: " . json_encode($dates) . ",
+            labels: "Test",
             datasets: [{
-                label: 'Number of cases in " . $WHO_region . "', //Label on top of the chart.
-                data: " . json_encode($cumulativeCases) . ", //The data goes here.
+                label: 'Testing', //Label on top of the chart.
+                data: ['1111'], //The data goes here.
             }]
         },
         options: {
