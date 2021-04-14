@@ -19,7 +19,7 @@
             <script>
                 $(document).ready(function() {
                     $("select").on('change', function() {
-                        $.get("databaseConnection.php", function(data, status) {
+                        $.get("databaseConnection.php?query=" + this.value, function(data, status) {
                             console.log(data);
                         });
                     });
