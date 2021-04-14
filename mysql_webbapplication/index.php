@@ -19,7 +19,9 @@
             <script>
                 $(document).ready(function() {
                     $("select").on('change', function() {
-                        
+                        $.get("databaseConnection.php", function(data, status) {
+                            console.log(data);
+                        });
                     });
                 });
             </script>
@@ -48,10 +50,10 @@
     var covidChart = new Chart(canvas, {
         type: 'line', //Type of chart, in this case, bar chart.
         data: {
-            labels: "Test",
+            labels: ["Test"],
             datasets: [{
                 label: 'Testing', //Label on top of the chart.
-                data: ['1111'], //The data goes here.
+                data: [1111], //The data goes here.
             }]
         },
         options: {
