@@ -20,8 +20,13 @@
                 var data;
                 $(document).ready(function() {
                     $("select").on('change', function() {
-                        $.get("databaseConnection.php?query=" + this.value, function(datasets, status) {
-                            console.log(datasets);
+                        $.ajax({
+                            url: 'databaseConnection.php?query=' + this.value,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                            }
                         });
                     });
                 });
