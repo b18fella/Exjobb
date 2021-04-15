@@ -17,10 +17,11 @@
         </header>
         <section id="covid-19-data">
             <script>
+                var data;
                 $(document).ready(function() {
                     $("select").on('change', function() {
-                        $.get("databaseConnection.php?query=" + this.value, function(data, status) {
-                            console.log(data);
+                        $.get("databaseConnection.php?query=" + this.value, function(datasets, status) {
+                            console.log(datasets);
                         });
                     });
                 });

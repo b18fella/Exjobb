@@ -17,11 +17,11 @@
 
     if (mysqli_num_rows($queryResult) > 0) {
         while ($row = $queryResult->fetch_assoc()) {
-            $datasets[$row['Country']]['Date_reported'][] = $row['Date_reported'];
-            $datasets[$row['Country']]['New_cases'][] = $row['New_cases'];
-            $datasets[$row['Country']]['Cumulative_cases'][] = $row['Cumulative_cases'];
-            $datasets[$row['Country']]['New_deaths'][] = $row['New_deaths'];
-            $datasets[$row['Country']]['Cumulative_deaths'][] = $row['Cumulative_deaths'];
+            $datasets[$row['Country']][]['Date_reported'][] = $row['Date_reported'];
+            $datasets[$row['Country']][]['New_cases'][] = $row['New_cases'];
+            $datasets[$row['Country']][]['Cumulative_cases'][] = $row['Cumulative_cases'];
+            $datasets[$row['Country']][]['New_deaths'][] = $row['New_deaths'];
+            $datasets[$row['Country']][]['Cumulative_deaths'][] = $row['Cumulative_deaths'];
         }
 
         echo json_encode($datasets);
