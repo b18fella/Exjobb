@@ -16,8 +16,6 @@
     $queryResult = $databaseConnection->query($sqlQuery);
 
     if (mysqli_num_rows($queryResult) > 0) {
-        $data = new stdClass();
-        $datasets = new stdClass();
         $resultArray = array();
         $country = '';
         $firstCountry = true;
