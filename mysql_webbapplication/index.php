@@ -26,6 +26,9 @@
                             dataType: 'json',
                             success: function(data) {
                                 console.log(data);
+                            },
+                            error: function(request, status, error) {
+                                console.error(error);
                             }
                         });
                     });

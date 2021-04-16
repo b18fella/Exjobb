@@ -16,15 +16,35 @@
     $queryResult = $databaseConnection->query($sqlQuery);
 
     if (mysqli_num_rows($queryResult) > 0) {
+        $data = new stdClass();
+        $datasets = new stdClass();
+        $resultArray = array();
+        $country = '';
         while ($row = $queryResult->fetch_assoc()) {
-            $datasets[$row['Country']][]['Date_reported'][] = $row['Date_reported'];
-            $datasets[$row['Country']][]['New_cases'][] = $row['New_cases'];
-            $datasets[$row['Country']][]['Cumulative_cases'][] = $row['Cumulative_cases'];
-            $datasets[$row['Country']][]['New_deaths'][] = $row['New_deaths'];
-            $datasets[$row['Country']][]['Cumulative_deaths'][] = $row['Cumulative_deaths'];
+            if ($country !== $row['Country']) {
+                $resultArray[$row['Country']] = array();
+                $country = $row['Country'];
+            }
+            $resultArray[$row['Country']][] = array(
+                'Date_reported' => $row['Date_reported'],
+                'Cumulative_cases' => $row['Cumulative_cases'],
+                'Cumulative_deaths' => $row['Cumulative_deaths']
+            );
         }
+        $dates = array();
+        $cases = array();
+        foreach ($resultArray as $resultArrayRow => $value) {
+            $datasets->label = key($resultArray);
+            foreach ($value as $key => $valueRow) {
+                $cases[] = $valueRow['Cumulative_cases'];
+                $dates[] = $valueRow['Date_reported'];
+            }
+            $datasets->data = $cases;
+        }
+        $data->labels = $dates;
+        $data->datasets = array($datasets);
 
-        echo json_encode($datasets);
+        echo json_encode($data);
     } else {
         echo "These was no data";
     }
