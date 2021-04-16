@@ -5,6 +5,24 @@
         <link rel="stylesheet" href="../main.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            function drawGraph(data) {
+                var canvas = document.getElementById('covidChart');
+                var covidChart = new Chart(canvas, {
+                    type: 'line', //Type of chart, in this case, bar chart.
+                    data: data,
+                    options: {
+                    scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        </script>
     </head>
     <body>
         <header>
@@ -26,20 +44,7 @@
                             dataType: 'json',
                             success: function(data) {
                                 console.log(data);
-                                var canvas = document.getElementById('covidChart');
-                                var covidChart = new Chart(canvas, {
-                                    type: 'line', //Type of chart, in this case, bar chart.
-                                    data: data,
-                                    options: {
-                                        scales: {
-                                            yAxes: [{
-                                                ticks: {
-                                                    beginAtZero: true
-                                                }
-                                            }]
-                                        }
-                                    }
-                                });
+                                
                             },
                             error: function(request, status, error) {
                                 console.error(error);
