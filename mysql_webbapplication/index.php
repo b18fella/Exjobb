@@ -26,6 +26,20 @@
                             dataType: 'json',
                             success: function(data) {
                                 console.log(data);
+                                var canvas = document.getElementById('covidChart');
+                                var covidChart = new Chart(canvas, {
+                                    type: 'line', //Type of chart, in this case, bar chart.
+                                    data: data,
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
                             },
                             error: function(request, status, error) {
                                 console.error(error);
@@ -54,26 +68,4 @@
         <section id="cc">
         </section>
     </body>
-    <script type='text/javascript'>
-    var canvas = document.getElementById('covidChart');
-    var covidChart = new Chart(canvas, {
-        type: 'line', //Type of chart, in this case, bar chart.
-        data: {
-            labels: ["Test"],
-            datasets: [{
-                label: 'Testing', //Label on top of the chart.
-                data: [1111], //The data goes here.
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
-    </script>
 </html>
