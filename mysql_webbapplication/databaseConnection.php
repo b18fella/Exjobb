@@ -31,20 +31,8 @@
                 'Cumulative_deaths' => $row['Cumulative_deaths']
             );
         }
-        $dates = array();
-        $cases = array();
-        foreach ($resultArray as $resultArrayRow => $value) {
-            $datasets->label = key($resultArray);
-            foreach ($value as $key => $valueRow) {
-                $cases[] = $valueRow['Cumulative_cases'];
-                $dates[] = $valueRow['Date_reported'];
-            }
-            $datasets->data = $cases;
-        }
-        $data->labels = $dates;
-        $data->datasets = array($datasets);
 
-        echo json_encode($data);
+        echo json_encode($resultArray);
     } else {
         echo "These was no data";
     }
