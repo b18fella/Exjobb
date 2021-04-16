@@ -20,13 +20,21 @@
         $datasets = new stdClass();
         $resultArray = array();
         $country = '';
+        $firstCountry = true;
         while ($row = $queryResult->fetch_assoc()) {
             if ($country !== $row['Country']) {
-                $resultArray[$row['Country']] = array();
+                if ($firstCountry && $country === '') {
+                    $resultArray['Date_reported'] = array();
+                } else {
+                    $firstCountry = false;
+                }
+                $resultArray[$row['Country']][] = array();
                 $country = $row['Country'];
             }
+            if ($firstCountry) {
+                $resultArray['Date_reported'][] = $row['Date_reported'];
+            }
             $resultArray[$row['Country']][] = array(
-                'Date_reported' => $row['Date_reported'],
                 'Cumulative_cases' => $row['Cumulative_cases'],
                 'Cumulative_deaths' => $row['Cumulative_deaths']
             );
