@@ -22,7 +22,15 @@
 
     if (mysqli_num_rows($queryResult) > 0) {
         $resultArray = array();
-        $resultArray['Countries'] = array();
+        $resultArray['Regions'] = array(
+            "EMRO" => array(),
+            "EURO" => array(),
+            "AFRO" => array(),
+            "WPRO" => array(),
+            "AMRO" => array(),
+            "SEARO" => array(),
+            "Other" => array()
+        );
         $country = '';
         $firstCountry = true;
         while ($row = $queryResult->fetch_assoc()) {
@@ -32,13 +40,13 @@
                 } else {
                     $firstCountry = false;
                 }
-                $resultArray['Countries'][$row['Country']][] = array();
+                $resultArray['Regions'][$row['WHO_region']][$row['Country']] = array();
                 $country = $row['Country'];
             }
             if ($firstCountry) {
                 $resultArray['Date_reported'][] = $row['Date_reported'];
             }
-            $resultArray['Countries'][$row['Country']][] = array(
+            $resultArray['Regions'][$row['WHO_region']][$row['Country']][] = array(
                 'Cumulative_cases' => $row['Cumulative_cases'],
                 'Cumulative_deaths' => $row['Cumulative_deaths']
             );
