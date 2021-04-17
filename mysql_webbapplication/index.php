@@ -7,8 +7,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="text/javascript">
             function drawGraph(formatedData) {
-                var canvas = document.getElementById('covidChart');
-                var covidChart = new Chart(canvas, {
+                let canvas = document.getElementById('covidChart');
+                let covidChart = new Chart(canvas, {
                     type: 'line', //Type of chart, in this case, bar chart.
                     data: formatedData,
                     options: {
@@ -43,7 +43,7 @@
 
                    
                 }
-                console.log(datasets);
+
                 for (const key in data.Date_reported) {
                     dates.push(data.Date_reported[key]);
                 }
@@ -68,7 +68,6 @@
         </header>
         <section id="covid-19-data">
             <script>
-                var data;
                 $(document).ready(function() {
                     $("select").on('change', function() {
                         $.ajax({
@@ -76,8 +75,7 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
-                                let formatedData = formatData(data);
-                                drawGraph(formatedData);
+                                drawGraph(formatData(data));
                             },
                             error: function(request, status, error) {
                                 console.error(error);
