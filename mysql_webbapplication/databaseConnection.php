@@ -16,15 +16,30 @@
     $queryResult = $databaseConnection->query($sqlQuery);
 
     if (mysqli_num_rows($queryResult) > 0) {
+        $resultArray = array();
+        $resultArray['Countries'] = array();
+        $country = '';
+        $firstCountry = true;
         while ($row = $queryResult->fetch_assoc()) {
-            $datasets[$row['Country']]['Date_reported'][] = $row['Date_reported'];
-            $datasets[$row['Country']]['New_cases'][] = $row['New_cases'];
-            $datasets[$row['Country']]['Cumulative_cases'][] = $row['Cumulative_cases'];
-            $datasets[$row['Country']]['New_deaths'][] = $row['New_deaths'];
-            $datasets[$row['Country']]['Cumulative_deaths'][] = $row['Cumulative_deaths'];
+            if ($country !== $row['Country']) {
+                if ($firstCountry && $country === '') {
+                    $resultArray['Date_reported'] = array();
+                } else {
+                    $firstCountry = false;
+                }
+                $resultArray['Countries'][$row['Country']][] = array();
+                $country = $row['Country'];
+            }
+            if ($firstCountry) {
+                $resultArray['Date_reported'][] = $row['Date_reported'];
+            }
+            $resultArray['Countries'][$row['Country']][] = array(
+                'Cumulative_cases' => $row['Cumulative_cases'],
+                'Cumulative_deaths' => $row['Cumulative_deaths']
+            );
         }
 
-        echo json_encode($datasets);
+        echo json_encode($resultArray);
     } else {
         echo "These was no data";
     }
