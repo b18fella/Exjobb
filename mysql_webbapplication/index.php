@@ -11,12 +11,11 @@
             function drawGraph(formatedData) {
                 let canvas = document.getElementById('covidChart');
                 let canvasContext = canvas.getContext('2d');
-                
 
                 if (!chartEnabled) {
                     chartEnabled = true;
                     covidChart = new Chart(canvas, {
-                        type: 'bar', //Type of chart, in this case, bar chart.
+                        type: 'line', //Type of chart, in this case, bar chart.
                         data: formatedData,
                         options: {
                         scales: {
@@ -28,7 +27,6 @@
                             }
                         }
                     });
-                    
                 } else {
                     covidChart.config.data = formatedData;
                     covidChart.update();
