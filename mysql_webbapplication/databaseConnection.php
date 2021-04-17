@@ -12,7 +12,12 @@
     if ($databaseConnection->connect_error) { die("Connection error: " . $databaseConnection->connect_error); }
     
     $WHO_region = $_GET['query'];
-    $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region = '$WHO_region';";
+    if($WHO_region == 'ALL') {
+        $sqlQuery = "SELECT * FROM globalcoviddata;";
+    } else {
+        $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region = '$WHO_region';";
+    }
+    
     $queryResult = $databaseConnection->query($sqlQuery);
 
     if (mysqli_num_rows($queryResult) > 0) {
