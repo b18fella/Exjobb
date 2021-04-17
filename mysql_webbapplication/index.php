@@ -6,11 +6,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="text/javascript">
-            function drawGraph(data) {
+            function drawGraph(formatedData) {
                 var canvas = document.getElementById('covidChart');
                 var covidChart = new Chart(canvas, {
                     type: 'line', //Type of chart, in this case, bar chart.
-                    data: data,
+                    data: formatedData,
                     options: {
                     scales: {
                             yAxes: [{
@@ -21,6 +21,39 @@
                         }
                     }
                 });
+            }
+
+            function formatData(data) {
+                let datasets = [];
+                let dates = [];
+                for (const key in data.Countries) {
+                    let country = data.Countries[key];
+                    let countryCases = [];
+
+                    for (let i = 1; i < country.length; i++) {
+                        countryCases.push(country[i]['Cumulative_cases']);
+                    }
+
+                    let dataset = {
+                        label: key,
+                        data: countryCases
+                    };
+                    
+                    datasets.push(dataset);
+
+                   
+                }
+                console.log(datasets);
+                for (const key in data.Date_reported) {
+                    dates.push(data.Date_reported[key]);
+                }
+
+                let formatedData = {
+                    labels: dates,
+                    datasets: datasets
+                };
+
+                return formatedData;
             }
         </script>
     </head>
@@ -43,8 +76,8 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
-                                console.log(data);
-                                
+                                let formatedData = formatData(data);
+                                drawGraph(formatedData);
                             },
                             error: function(request, status, error) {
                                 console.error(error);

@@ -17,6 +17,7 @@
 
     if (mysqli_num_rows($queryResult) > 0) {
         $resultArray = array();
+        $resultArray['Countries'] = array();
         $country = '';
         $firstCountry = true;
         while ($row = $queryResult->fetch_assoc()) {
@@ -26,13 +27,13 @@
                 } else {
                     $firstCountry = false;
                 }
-                $resultArray[$row['Country']][] = array();
+                $resultArray['Countries'][$row['Country']][] = array();
                 $country = $row['Country'];
             }
             if ($firstCountry) {
                 $resultArray['Date_reported'][] = $row['Date_reported'];
             }
-            $resultArray[$row['Country']][] = array(
+            $resultArray['Countries'][$row['Country']][] = array(
                 'Cumulative_cases' => $row['Cumulative_cases'],
                 'Cumulative_deaths' => $row['Cumulative_deaths']
             );
