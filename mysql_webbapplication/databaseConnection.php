@@ -40,13 +40,13 @@
                 } else {
                     $firstCountry = false;
                 }
-                $resultArray['Regions'][$row['WHO_region']]['Countries'][$row['Country']][] = array();
+                $resultArray['Regions'][$row['WHO_region']][$row['Country']] = array();
                 $country = $row['Country'];
             }
             if ($firstCountry) {
                 $resultArray['Date_reported'][] = $row['Date_reported'];
             }
-            $resultArray['Regions'][$row['WHO_region']]['Countries'][$row['Country']][] = array(
+            $resultArray['Regions'][$row['WHO_region']][$row['Country']][] = array(
                 'Cumulative_cases' => $row['Cumulative_cases'],
                 'Cumulative_deaths' => $row['Cumulative_deaths']
             );

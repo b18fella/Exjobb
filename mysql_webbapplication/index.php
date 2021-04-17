@@ -8,6 +8,8 @@
         <script type="text/javascript">
             function drawGraph(formatedData) {
                 let canvas = document.getElementById('covidChart');
+                let canvasContext = canvas.getContext('2d');
+                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
                 let covidChart = new Chart(canvas, {
                     type: 'line', //Type of chart, in this case, bar chart.
                     data: formatedData,
@@ -26,22 +28,35 @@
             function formatData(data) {
                 let datasets = [];
                 let dates = [];
-                for (const key in data.Countries) {
-                    let country = data.Countries[key];
-                    let countryCases = [];
 
-                    for (let i = 1; i < country.length; i++) {
-                        countryCases.push(country[i]['Cumulative_cases']);
+                for (const key in data.Regions) {
+                    let regionCases = [];
+                    let region = data.Regions[key];
+
+                    if (region.length !== 0) {
+                        for (const country in region) {
+                            let countryData = region[country];
+                            
+                            for (let i = 0; i < countryData.length; i++) {
+                                let tmp = parseInt(countryData[i]['Cumulative_cases']);
+                                if (tmp === 0 && i === countryData.length - 1) {
+                                    regionCases[i] = tmp;
+                                } else if (tmp > 0) {
+                                    if (regionCases[i] === undefined) {
+                                        regionCases[i] = tmp;
+                                    } else {
+                                        regionCases[i] += tmp;
+                                    }
+                                }
+                            }
+                        }
+                        let dataset = {
+                            label: key,
+                            data: regionCases
+                        };
+
+                        datasets.push(dataset);
                     }
-
-                    let dataset = {
-                        label: key,
-                        data: countryCases
-                    };
-                    
-                    datasets.push(dataset);
-
-                   
                 }
 
                 for (const key in data.Date_reported) {
@@ -53,7 +68,7 @@
                     datasets: datasets
                 };
 
-                return formatedData;
+                return formatedData;                
             }
         </script>
     </head>
@@ -75,6 +90,7 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
+                                console.log(data);
                                 drawGraph(formatData(data));
                             },
                             error: function(request, status, error) {
