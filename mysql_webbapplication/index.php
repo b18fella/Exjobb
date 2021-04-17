@@ -6,23 +6,33 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script type="text/javascript">
+            var chartEnabled = false;
+            var covidChart;
             function drawGraph(formatedData) {
                 let canvas = document.getElementById('covidChart');
                 let canvasContext = canvas.getContext('2d');
-                canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-                let covidChart = new Chart(canvas, {
-                    type: 'line', //Type of chart, in this case, bar chart.
-                    data: formatedData,
-                    options: {
-                    scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
+                
+
+                if (!chartEnabled) {
+                    chartEnabled = true;
+                    covidChart = new Chart(canvas, {
+                        type: 'bar', //Type of chart, in this case, bar chart.
+                        data: formatedData,
+                        options: {
+                        scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
                         }
-                    }
-                });
+                    });
+                    
+                } else {
+                    covidChart.config.data = formatedData;
+                    covidChart.update();
+                }
             }
 
             function formatData(data) {
@@ -90,7 +100,6 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
-                                console.log(data);
                                 drawGraph(formatData(data));
                             },
                             error: function(request, status, error) {
