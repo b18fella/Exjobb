@@ -13,9 +13,9 @@
     
     $WHO_region = $_GET['query'];
     if($WHO_region == 'ALL') {
-        $sqlQuery = "SELECT * FROM globalcoviddata;";
+        $sqlQuery = "SELECT * FROM globalcoviddata ORDER BY Date_reported, Country;";
     } else {
-        $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region = '$WHO_region';";
+        $sqlQuery = "SELECT * FROM globalcoviddata WHERE WHO_region = '$WHO_region' ORDER BY Date_reported, Country;";
     }
     
     $queryResult = $databaseConnection->query($sqlQuery);
@@ -33,8 +33,10 @@
         );
         $country = '';
         $firstCountry = true;
+        $result = array();
         while ($row = $queryResult->fetch_assoc()) {
-            if ($country !== $row['Country']) {
+            $result[] = $row;
+            /*if ($country !== $row['Country']) {
                 if ($firstCountry && $country === '') {
                     $resultArray['Date_reported'] = array();
                 } else {
@@ -49,10 +51,10 @@
             $resultArray['Regions'][$row['WHO_region']][$row['Country']][] = array(
                 'Cumulative_cases' => $row['Cumulative_cases'],
                 'Cumulative_deaths' => $row['Cumulative_deaths']
-            );
+            );*/
         }
 
-        echo json_encode($resultArray);
+        echo json_encode($result);
     } else {
         echo "These was no data";
     }
