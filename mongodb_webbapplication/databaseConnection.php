@@ -2,12 +2,13 @@
     $databaseConnection = new MongoDB\Driver\Manager();
 
     if ($_GET['query'] == 'ALL') {
-        $mongoCommand = new MongoDB\Driver\Query([]);
+        $mongoQuery = new MongoDB\Driver\Query([]);
     } else {
-        $mongoCommand = new MongoDB\Driver\Query(['WHO_region' => $_GET['query']]);
+        $mongoQuery = new MongoDB\Driver\Query(['WHO_region' => $_GET['query']]).sort(['Date_reported' => -1]);
     }
 
-    $queryResult = $databaseConnection->executeQuery('coviddata.globalcoviddata', $mongoCommand);
+
+    $queryResult = $databaseConnection->executeQuery('coviddata.globalcoviddata', $mongoQuery);
     $queryResult = $queryResult->toArray();
 
 
