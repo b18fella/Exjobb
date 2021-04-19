@@ -2,18 +2,23 @@ var chartEnabled = false;
 var covidChart;
 
 $(document).ready(function() {
-    $("select").on('change', function() {
+    $("select").on('click', function() {
         var startTime = performance.now();
         $.ajax({
             url: 'databaseConnection.php?query=' + this.value,
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var dataRetrievalTime = performance.now();
+                var dataRetreivalTime = performance.now();
+                var time = dataRetreivalTime - startTime;
+                console.log("Took " + time + " milliseconds to retrieve the data");
                 drawGraph(formatData(data));
-                var endTime = performance.now();
-                var timeResult = endTime - startTime;
-                console.log(timeResult);
+
+                endTime = performance.now();
+                timeDraw = endTime - dataRetreivalTime;
+                console.log("Took " + timeDraw + " milliseconds to format and draw the chart");
+                time = time + timeDraw;
+                console.log("Took " + time + " milliseconds for the whole process")
             },
             error: function(request, status, error) {
                 console.error(error);
@@ -47,42 +52,42 @@ function drawGraph(formatedData) {
     }
 }
 
-function formatData(data) {
-    let datasets = [];
+function formatData(unformattedData) {
     let dates = [];
+    let datasets = [];
+    let currentDate;
+    let data = [];
+    let regions = [];
 
-    for (const key in data.Regions) {
-        let regionCases = [];
-        let region = data.Regions[key];
+    for (let i = 0; i < unformattedData.length; i++) {
+        if (!dates.includes(unformattedData[i]['Date_reported'])) {
+            dates.push(unformattedData[i]['Date_reported']);
+            currentDate = unformattedData[i]['Date_reported'];
+            data[currentDate] = [];
+        }
 
-        if (region.length !== 0) {
-            for (const country in region) {
-                let countryData = region[country];
-                            
-                for (let i = 0; i < countryData.length; i++) {
-                    let tmp = parseInt(countryData[i]['Cumulative_cases']);
-                    if (tmp === 0 && i === countryData.length - 1) {
-                        regionCases[i] = tmp;
-                    } else if (tmp > 0) {
-                        if (regionCases[i] === undefined) {
-                            regionCases[i] = tmp;
-                        } else {
-                            regionCases[i] += tmp;
-                        }
-                    }
-                }
-            }
-            let dataset = {
-                label: key,
-                data: regionCases
-            };
-
-            datasets.push(dataset);
+        if (data[currentDate][unformattedData[i]['WHO_region']] === undefined) {
+            data[currentDate][unformattedData[i]['WHO_region']] = parseInt(unformattedData[i]['Cumulative_cases']);
+        } else {
+            data[currentDate][unformattedData[i]['WHO_region']] += parseInt(unformattedData[i]['Cumulative_cases']);
         }
     }
 
-    for (const key in data.Date_reported) {
-        dates.push(data.Date_reported[key]);
+    for (const key in data) {
+        let date = data[key];
+        for (var dateKey in date) {
+            if (regions[dateKey] === undefined) {
+                regions[dateKey] = [];
+            }
+            regions[dateKey].push(date[dateKey]);
+        }
+    }
+
+    for (let regionKey in regions) {
+        datasets.push({
+            label: regionKey,
+            data: regions[regionKey]
+        });
     }
 
     let formatedData = {
