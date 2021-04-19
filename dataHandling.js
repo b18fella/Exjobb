@@ -29,7 +29,17 @@ function formatData(data) {
     let datasets = [];
     let dates = [];
 
-    
+    let currentDate;
+
+    for (let i = 0; i < data.length; i++) {
+        if (currentDate !== data[i]['Date_reported']) {
+            dates.push(data[i]['Date_reported']);
+            currentDate = data[i]['Date_reported'];
+        }
+        
+    }
+
+    console.log(dates);
 
     let formatedData = {
         labels: dates,
