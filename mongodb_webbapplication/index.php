@@ -25,6 +25,7 @@
                     <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
                     <option value="AMRO" name='WHO_region'>Region of the Americas</option>
                     <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
+                    <option value="Other" name='WHO_region'>Other</option>
                     <option value="ALL" name='WHO_region'>All regions</option>
                 </select>
             </form>
