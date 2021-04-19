@@ -25,25 +25,48 @@ function drawGraph(formatedData) {
     }
 }
 
-function formatData(data) {
-    let datasets = [];
+function formatData(unformattedData) {
     let dates = [];
+    let dataset = [];
+    let datasets = [];
+    let datasetsArray = [];
 
     let currentDate;
+    let data = [];
     let regions = [];
 
-    for (let i = 0; i < data.length; i++) {
-        if (!dates.includes(data[i]['Date_reported'])) {
-            dates.push(data[i]['Date_reported']);
-            currentDate = data[i]['Date_reported'];
+    for (let i = 0; i < unformattedData.length; i++) {
+        if (!dates.includes(unformattedData[i]['Date_reported'])) {
+            dates.push(unformattedData[i]['Date_reported']);
+            currentDate = unformattedData[i]['Date_reported'];
+            data[currentDate] = [];
         }
 
-        if (!regions.includes(data[i]['WHO_region'])) {
-            regions[data[i]['WHO_region']] = [];
+        if (data[currentDate][unformattedData[i]['WHO_region']] === undefined) {
+            data[currentDate][unformattedData[i]['WHO_region']] = parseInt(unformattedData[i]['Cumulative_cases']);
+        } else {
+            data[currentDate][unformattedData[i]['WHO_region']] += parseInt(unformattedData[i]['Cumulative_cases']);
         }
     }
 
-    console.log(dates);
+    for (const key in data) {
+        let date = data[key];
+        for (var dateKey in date) {
+            if (regions[dateKey] === undefined) {
+                regions[dateKey] = [];
+                regions[dateKey].push(date[dateKey]);
+            } else {
+                regions[dateKey].push(date[dateKey]);
+            }
+        }
+    }
+    console.log(regions);
+    for (let regionKey in regions) {
+        datasets.push({
+            label: regionKey,
+            data: regions[regionKey]
+        });
+    }
 
     let formatedData = {
         labels: dates,
