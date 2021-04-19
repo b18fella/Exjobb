@@ -14,7 +14,6 @@
                             type: 'get',
                             dataType: 'json',
                             success: function(data) {
-                                console.log(data);
                                 drawGraph(formatData(data));
                             },
                             error: function(request, status, error) {
