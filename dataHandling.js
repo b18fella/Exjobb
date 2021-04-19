@@ -30,13 +30,17 @@ function formatData(data) {
     let dates = [];
 
     let currentDate;
+    let regions = [];
 
     for (let i = 0; i < data.length; i++) {
-        if (currentDate !== data[i]['Date_reported']) {
+        if (!dates.includes(data[i]['Date_reported'])) {
             dates.push(data[i]['Date_reported']);
             currentDate = data[i]['Date_reported'];
         }
-        
+
+        if (!regions.includes(data[i]['WHO_region'])) {
+            regions[data[i]['WHO_region']] = [];
+        }
     }
 
     console.log(dates);
