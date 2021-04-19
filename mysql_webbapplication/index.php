@@ -21,7 +21,7 @@
                 <select name="WHO_region">
                     <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
                     <option value="EURO" name='WHO_region'>European Region</option>
-                    <option value="WPRO" name='WHO_region'>African Region</option>
+                    <option value="AFRO" name='WHO_region'>African Region</option>
                     <option value="WPRO" name='WHO_region'>Western Pacific Region</option>
                     <option value="AMRO" name='WHO_region'>Region of the Americas</option>
                     <option value="SEARO" name='WHO_region'>South-East Asia Region</option>
