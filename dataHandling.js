@@ -29,7 +29,6 @@ $(document).ready(function() {
 
 function drawGraph(formatedData) {
     let canvas = document.getElementById('covidChart');
-    let canvasContext = canvas.getContext('2d');
 
     if (!chartEnabled) {
         chartEnabled = true;
