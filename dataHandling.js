@@ -1,5 +1,32 @@
 var chartEnabled = false;
 var covidChart;
+
+$(document).ready(function() {
+    $("select").on('click', function() {
+        var startTime = performance.now();
+        $.ajax({
+            url: 'databaseConnection.php?query=' + this.value,
+            type: 'get',
+            dataType: 'json',
+            success: function(data) {
+                var dataRetreivalTime = performance.now();
+                var time = dataRetreivalTime - startTime;
+                console.log("Took " + time + " milliseconds to retrieve the data");
+                drawGraph(formatData(data));
+
+                endTime = performance.now();
+                timeDraw = endTime - dataRetreivalTime;
+                console.log("Took " + timeDraw + " milliseconds to format and draw the chart");
+                time = time + timeDraw;
+                console.log("Took " + time + " milliseconds for the whole process")
+            },
+            error: function(request, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
 function drawGraph(formatedData) {
     let canvas = document.getElementById('covidChart');
     let canvasContext = canvas.getContext('2d');
