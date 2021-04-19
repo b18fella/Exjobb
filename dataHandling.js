@@ -1,5 +1,27 @@
 var chartEnabled = false;
 var covidChart;
+
+$(document).ready(function() {
+    $("select").on('change', function() {
+        var startTime = performance.now();
+        $.ajax({
+            url: 'databaseConnection.php?query=' + this.value,
+            type: 'get',
+            dataType: 'json',
+            success: function(data) {
+                var dataRetrievalTime = performance.now();
+                drawGraph(formatData(data));
+                var endTime = performance.now();
+                var timeResult = endTime - startTime;
+                console.log(timeResult);
+            },
+            error: function(request, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
 function drawGraph(formatedData) {
     let canvas = document.getElementById('covidChart');
     let canvasContext = canvas.getContext('2d');

@@ -6,28 +6,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="../dataHandling.js"></script>
-        <script>
-                $(document).ready(function() {
-                    $("select").on('change', function() {
-                        var startTime = performance.now();
-                        $.ajax({
-                            url: 'databaseConnection.php?query=' + this.value,
-                            type: 'get',
-                            dataType: 'json',
-                            success: function(data) {
-                                var dataRetrievalTime = performance.now();
-                                drawGraph(formatData(data));
-                                var endTime = performance.now();
-                                var timeResult = endTime - startTime;
-                                console.log(timeResult);
-                            },
-                            error: function(request, status, error) {
-                                console.error(error);
-                            }
-                        });
-                    });
-                });
-        </script>
     </head>
     <body>
         <header>
