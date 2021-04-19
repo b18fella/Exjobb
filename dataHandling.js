@@ -27,10 +27,7 @@ function drawGraph(formatedData) {
 
 function formatData(unformattedData) {
     let dates = [];
-    let dataset = [];
     let datasets = [];
-    let datasetsArray = [];
-
     let currentDate;
     let data = [];
     let regions = [];
@@ -54,13 +51,11 @@ function formatData(unformattedData) {
         for (var dateKey in date) {
             if (regions[dateKey] === undefined) {
                 regions[dateKey] = [];
-                regions[dateKey].push(date[dateKey]);
-            } else {
-                regions[dateKey].push(date[dateKey]);
             }
+            regions[dateKey].push(date[dateKey]);
         }
     }
-    console.log(regions);
+
     for (let regionKey in regions) {
         datasets.push({
             label: regionKey,
