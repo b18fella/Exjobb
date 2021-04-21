@@ -1,31 +1,65 @@
 var chartEnabled = false;
 var covidChart;
-
-$(document).ready(function() {
-    $("select").on('click', function() {
-        var startTime = performance.now();
+var testResultsTime = [];
+var testResultsTimeDraw = [];
+var testResultsTimeComplete = [];
+var iterations = 0;
+function getData(runTests) {
+    let regionSelection = document.getElementById('selection').value;
+    let startTime = performance.now();
         $.ajax({
-            url: 'databaseConnection.php?query=' + this.value,
+            url: 'databaseConnection.php?query=' + regionSelection,
             type: 'get',
             dataType: 'json',
             success: function(data) {
-                var dataRetreivalTime = performance.now();
-                var time = dataRetreivalTime - startTime;
+                let dataRetreivalTime = performance.now();
+                let time = dataRetreivalTime - startTime;
                 console.log("Took " + time + " milliseconds to retrieve the data");
                 drawGraph(formatData(data));
 
-                endTime = performance.now();
-                timeDraw = endTime - dataRetreivalTime;
+                let endTime = performance.now();
+                let timeDraw = endTime - dataRetreivalTime;
                 console.log("Took " + timeDraw + " milliseconds to format and draw the chart");
-                time = time + timeDraw;
-                console.log("Took " + time + " milliseconds for the whole process")
+                let timeComplete = time + timeDraw;
+                console.log("Took " + timeComplete + " milliseconds for the whole process");
+                if (runTests) {
+                    let iterateTimes = document.getElementById('iterate').value;
+                    if(iterations < iterateTimes) {
+                        testResultsTime.push(time);
+                        testResultsTimeDraw.push(timeDraw);
+                        testResultsTimeComplete.push(timeComplete);
+                        iterations++;
+                        console.log("Iteration #" + iterations);
+                        setTimeout(function(){
+                            getData(true);
+                        }, 900);
+                    } else {
+                        iterations = 0;
+                        downloadTestResults(regionSelection);
+                    }
+                }
             },
             error: function(request, status, error) {
                 console.error(error);
             }
         });
-    });
-});
+        
+}
+
+function downloadTestResults(file) {
+    let downloadData = "";
+    for (let i = 0; i < testResultsTime.length; i++) {
+        downloadData += testResultsTime[i] + "," + testResultsTimeDraw[i] + "," + testResultsTimeComplete[i] + "\n";
+    }
+    let downloadElement = document.createElement('a');
+    downloadElement.setAttribute('href', 'data:text/html;charset=utf-8,' + downloadData);
+    downloadElement.setAttribute('download', file + "testData.txt");
+
+    downloadElement.style.display = 'none';
+    document.body.appendChild(downloadElement);
+    downloadElement.click();
+    document.body.removeChild(downloadElement);
+}
 
 function drawGraph(formatedData) {
     let canvas = document.getElementById('covidChart');
