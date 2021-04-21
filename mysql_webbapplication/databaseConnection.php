@@ -21,11 +21,8 @@
     $queryResult = $databaseConnection->query($sqlQuery);
 
     if (mysqli_num_rows($queryResult) > 0) {
-        $resultArray = array();
-        while ($row = $queryResult->fetch_assoc()) {
-            $resultArray[] = $row;
-        }
-        echo json_encode($resultArray);
+        $queryResult = mysqli_fetch_all($queryResult, MYSQLI_ASSOC);
+        echo json_encode($queryResult);
     } else {
         echo "These was no data";
     }
