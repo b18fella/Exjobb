@@ -17,8 +17,8 @@
             </ul>
         </header>
         <section id="covid-19-data">
-            <form action="index.php" method="post">
-                <select name="WHO_region">
+            <form>
+                <select name="WHO_region" id="selection">
                     <option value="EMRO" name='WHO_region'>Eastern Mediterranean Region</option>
                     <option value="EURO" name='WHO_region'>European Region</option>
                     <option value="AFRO" name='WHO_region'>African Region</option>
@@ -28,6 +28,9 @@
                     <option value="Other" name='WHO_region'>Other</option>
                     <option value="ALL" name='WHO_region'>All regions</option>
                 </select>
+                <button type="button" onclick="getData(false);">Get Data!</button>
+                <input type="number" id="iterate">
+                <button type="button" onclick="getData(true);">Run tests!</button>
             </form>
             <div id="covidDataContainer">
                 <canvas id="covidChart"></canvas>
