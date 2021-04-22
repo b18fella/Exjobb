@@ -30,9 +30,7 @@ function getData(runTests) {
                         testResultsTimeComplete.push(timeComplete);
                         iterations++;
                         console.log("Iteration #" + iterations);
-                        setTimeout(function(){
-                            getData(true);
-                        }, 900);
+                        getData(true);
                     } else {
                         iterations = 0;
                         downloadTestResults(regionSelection);
