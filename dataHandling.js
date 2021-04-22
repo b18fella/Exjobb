@@ -65,7 +65,7 @@ function drawGraph(formatedData) {
     if (!chartEnabled) {
         chartEnabled = true;
         covidChart = new Chart(canvas, {
-            type: 'line', //Type of chart, in this case, bar chart.
+            type: 'line',
             data: formatedData,
             options: {
                 scales: {
