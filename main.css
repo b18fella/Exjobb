@@ -45,3 +45,9 @@ section {
 #covidDataContainer {
     width: 70%;
 }
+
+#info, #cc {
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+}

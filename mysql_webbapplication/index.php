@@ -37,8 +37,11 @@
             </div>
         </section>
         <section id="info">
+            <p>Denna webbapplikation har tagits fram för att undersöka vilket databas som är mest effektiv i att hämta COVID-19 data.</p>
+            <p>Denna webbapplikation är då gjord för MySQL. Det finns även en till som är nästan helt identisk som då är för MongoDB.</p>
         </section>
         <section id="cc">
+            <p>All den data som används inom dessa applikationer kommer från World Health Organsation. All publicerad data från WHO är även skyddat med Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Intergovernmental Organization licence, även kallad <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/igo/">CC BY-NC-SA 3.0 IGO</a></p>
         </section>
     </body>
 </html>
