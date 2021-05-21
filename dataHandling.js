@@ -15,7 +15,7 @@ function getData(runTests) {
                 let dataRetreivalTime = performance.now();
                 let time = dataRetreivalTime - startTime;
                 console.log("Took " + time + " milliseconds to retrieve the data");
-                drawGraph(formatData(data));
+                drawGraph(formatData(data[0].data));
 
                 let endTime = performance.now();
                 let timeDraw = endTime - dataRetreivalTime;
@@ -99,9 +99,11 @@ function formatData(unformattedData) {
 
         if (data[currentDate][unformattedData[i]['WHO_region']] === undefined) {
             data[currentDate][unformattedData[i]['WHO_region']] = parseInt(unformattedData[i]['Cumulative_cases']);
+            
         } else {
             data[currentDate][unformattedData[i]['WHO_region']] += parseInt(unformattedData[i]['Cumulative_cases']);
         }
+        
     }
 
     for (const key in data) {
